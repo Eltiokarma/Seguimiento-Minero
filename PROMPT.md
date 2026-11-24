@@ -37,11 +37,19 @@ Las banderas `DM` y `UTILIZACIÓN` ya vienen en la data: usarlas como fuente pri
 - Filtrar `EJECUTOR = LUCARBAL` (el archivo también trae a la contrata SEPROCAL). Limpiar los espacios de los textos (`'LUCARBAL  '`, `'150 '`).
 - **Volquetes** = `EQUIPO` contiene `-VOL-`. **Semitráileres** = `-STR-`. **Minicargadores** = `GRUPO = EQR-CARGF`.
 - **Viajes** = número de filas por `CODACTIVIDAD`: **150 = mineral**, **151 = desmonte**, **152 = otros** (en `T_MAT`, `REL` = relleno cementado). Cuadra exacto día por día.
-- **DM %** = Σ`HORAS` con `DM=1` / Σ`HORAS`. Cuadra al 0.1–0.2 %.
-- **Utilización %** = Σ`HORAS` con `UTILIZACIÓN=1` / Σ`HORAS` (sobre horas **totales**, no sobre horas disponibles).
-- **Fallas** para MTBF/MTTR: columna `N°_FALLAS` o eventos 401 / 4013 (mantenimiento correctivo). Confirmar cuál usa el supervisor.
+- **Modelo de tiempos (definiciones del supervisor, confirmadas).** Las horas vienen en columnas: `TP` = `MTG_NIVEL1_TP`, `TM` = `MTG_NIVEL3_TM`, `TF` = `MTG_NIVEL4_TF`, `MnP` = `MTG_NIVEL4_MnP`, `NRO PARADAS` = `NUM_PARADAS`.
+  - **DM %** = (TP − TM) / TP
+  - **Utilización %** = TF / TP
+  - **MTBF** = TF / NRO PARADAS
+  - **MTTR** = MnP / NRO PARADAS
+  - Si el divisor es 0, el resultado es 0 (`DIVIDE(..., 0)`).
+  - Coincide con el PPT (por ejemplo BRK919: DM 95.6 %, utilización 61.3 %).
+- **Semitráiler = 34 t por viaje** (confirmado).
+- **Productividad t/h**: falta la fórmula DAX de `TN HR VOLQUETES` y `TN HR SEMI`. No se pudo reproducir con combinaciones simples de códigos.
+- El catálogo de códigos (formato físico del reporte de volquete) agrupa los tiempos en TF, TM (CR, RM, MP), RP, RnP, TRE, RG y TnP. Las columnas MTG del Excel ya traen esa clasificación.
 - **Headcount** = cantidad de `DNI` distintos por semana y por grupo.
-- **Velocidad**: `KM Distancia` y `Distancia ACA` casi siempre están en 0 para LUCARBAL. Hace falta una tabla de distancias por `LABORDESTINO`.
+- **Velocidad**: **en espera** (se implementará después). `KM Distancia` y `Distancia ACA` casi siempre están en 0. Hará falta una tabla de distancias por `LABORDESTINO`.
+- **Flujo actual:** el Excel de Cognos alimenta directamente el Power BI (`fase_1.pbix`, tabla `Consulta1`).
 
 **Para qué.** Todos los **sábados** hay reunión de KPIs. El supervisor presenta el avance contra el **plan semanal** y el **plan mensual** (ejemplo: `KPI_SEMANA_47.pptx`).
 
