@@ -1,0 +1,10 @@
+# Datos de la operación: nunca al repositorio
+datos/
+*.parquet
+COGNOS*.xlsx
+COGNOS*.rar
+PLAN_PRODUCCION*.xlsx
+KPI_*.pptx
+KPI_*.xlsx
+.venv/
+__pycache__/
