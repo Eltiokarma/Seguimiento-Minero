@@ -16,6 +16,22 @@ Actúa como analista de datos de operaciones mineras y desarrollador. Vas a cons
 
 **Cómo llega la data.** Cada equipo reporta sus actividades con **códigos**, por guardia de **12 horas** (día: 07:00–19:00; noche: 19:00–07:00). Ese reporte se carga en una base de datos y se descarga como Excel (~200 MB). Columnas conocidas del modelo actual de Power BI: `CONTRATA`, `EQUIPO`, `GUARDIA`, `SEMANA`, `ACTIVIDAD`, `LABORDESTINO`, `HORAS DEMORA`, fecha, y conteos de `VIAJES MINERAL`, `VIAJES DESMONTE`, `VIAJES OTROS` y `VIAJES REL` (relleno cementado).
 
+**Estructura real del Excel (export de Cognos, hoja `Consulta1`).** Es un **log de eventos**: una fila por actividad de cada reporte de guardia. Columnas clave:
+
+| Columna | Uso |
+|---|---|
+| `MES`, `FECHA`, `GUARDIA` (D/N), `CODGUARDIA` | Tiempo y turno |
+| `EQUIPO` (ej. `LUC-VOL-BRL886`, `LUC-STR-CDV820`), `GRUPO` (`EQR-VOLQ`, `EQR-CARGF`, …) | Equipo y tipo de flota |
+| `OPERADOR`, `DNI` | Headcount (operadores distintos por semana) |
+| `NUMREPORTE`, `POSICION`, `INICIO`, `FINAL`, `HORAS` | Secuencia y duración de cada evento |
+| `CODACTIVIDAD` + descripción (ej. 150 Transporte de mineral, 151 Transporte de desmonte, 148 Recibiendo carga, 149 Descarga y volteo, 153 Retorno de equipo, 203 Refrigerio, 312 Esperando carga) | Clasificación del tiempo y conteo de viajes |
+| `VIAJES`, `LABORDESTINO` (ej. `PT_VICTORIA`, `RP_713`), `Distancia ACA` | Viajes, destino y distancia para calcular velocidades |
+| `DM` (0/1), `UTILIZACIÓN` (0/1) | Banderas por evento: el evento cuenta como disponible o como utilizado |
+| `Detalle` | Texto de la falla, para las causas del Pareto |
+| `H.INICIAL`, `H.FINAL`, `H.TOTAL` | Horómetro |
+
+Las banderas `DM` y `UTILIZACIÓN` ya vienen en la data: usarlas como fuente principal y validar contra el mapeo de códigos.
+
 **Para qué.** Todos los **sábados** hay reunión de KPIs. El supervisor presenta el avance contra el **plan semanal** y el **plan mensual** (ejemplo: `KPI_SEMANA_47.pptx`).
 
 **Objetivo principal:** *"meter la data y ¡pum! que me bote todos los KPIs"*. Cargar el Excel exportado y obtener el reporte semanal completo, sin trabajo manual.
