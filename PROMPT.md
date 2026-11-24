@@ -32,6 +32,17 @@ Actúa como analista de datos de operaciones mineras y desarrollador. Vas a cons
 
 Las banderas `DM` y `UTILIZACIÓN` ya vienen en la data: usarlas como fuente principal y validar contra el mapeo de códigos.
 
+### Reglas validadas contra `KPI_SEMANA_47.pptx` (13–18 nov 2026)
+
+- Filtrar `EJECUTOR = LUCARBAL` (el archivo también trae a la contrata SEPROCAL). Limpiar los espacios de los textos (`'LUCARBAL  '`, `'150 '`).
+- **Volquetes** = `EQUIPO` contiene `-VOL-`. **Semitráileres** = `-STR-`. **Minicargadores** = `GRUPO = EQR-CARGF`.
+- **Viajes** = número de filas por `CODACTIVIDAD`: **150 = mineral**, **151 = desmonte**, **152 = otros** (en `T_MAT`, `REL` = relleno cementado). Cuadra exacto día por día.
+- **DM %** = Σ`HORAS` con `DM=1` / Σ`HORAS`. Cuadra al 0.1–0.2 %.
+- **Utilización %** = Σ`HORAS` con `UTILIZACIÓN=1` / Σ`HORAS` (sobre horas **totales**, no sobre horas disponibles).
+- **Fallas** para MTBF/MTTR: columna `N°_FALLAS` o eventos 401 / 4013 (mantenimiento correctivo). Confirmar cuál usa el supervisor.
+- **Headcount** = cantidad de `DNI` distintos por semana y por grupo.
+- **Velocidad**: `KM Distancia` y `Distancia ACA` casi siempre están en 0 para LUCARBAL. Hace falta una tabla de distancias por `LABORDESTINO`.
+
 **Para qué.** Todos los **sábados** hay reunión de KPIs. El supervisor presenta el avance contra el **plan semanal** y el **plan mensual** (ejemplo: `KPI_SEMANA_47.pptx`).
 
 **Objetivo principal:** *"meter la data y ¡pum! que me bote todos los KPIs"*. Cargar el Excel exportado y obtener el reporte semanal completo, sin trabajo manual.
